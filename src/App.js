@@ -1,9 +1,10 @@
-import React, { useState, useEffect, componentDidMount } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import TododList from './crudTable/TodoList'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table'
-import UserForm from './crudTable/AddUser'
+import AddUserForm from './crudTable/AddUser'
+import EditUserForm from './crudTable/EditUser';
 
 const styles = {
     width: "70%",
@@ -12,7 +13,17 @@ const styles = {
 
 function App() {
 
+  const initialUser = { email: '', name: '', login: '' }
   const [users, setUsers] = useState([]);
+  const [edit, setEdit] = useState(false);
+  const [currentUser, setCurrentUser] = useState(initialUser);
+  const [id, setId] = useState(null);
+
+  function editUser(id, user) {
+    setEdit(true);
+    setCurrentUser(user);
+    setId(id);
+  }
 
   function getData() {
     fetch('http://178.128.196.163:3000/api/records')
@@ -36,7 +47,7 @@ function App() {
         },
         body: JSON.stringify({data })
         })
-        if(response.status == 200) {
+        if(response.status === 200) {
           getData();
         }else{
           alert(response.status)
@@ -44,22 +55,28 @@ function App() {
   }
 
   // Update
-  // async function updateUser(id, user) {
-  //   let response = await fetch('http://178.128.196.163:3000/api/records/' + id, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({  })
-  //   })
-  // }
+  async function updateUser(id, data) {
+    let response = await fetch('http://178.128.196.163:3000/api/records/'  + id, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ data })
+    })
+    if(response.json === 200) {
+     
+      setCurrentUser(initialUser);
+      setEdit(false);
+      getData();
+    }
+  }
 
   // Delete
   async function deleteUser(id) {
     let response = await fetch('http://178.128.196.163:3000/api/records/' + id, {
       method: 'DELETE',
     })
-    if(response.status == 200) {
+    if(response.status === 200) {
       getData();
     }
   }
@@ -69,12 +86,28 @@ function App() {
     <div className="App">
       <h1>Crud interface</h1>
       <Table striped bordered hover style={styles}>
-      <TododList users = {users} deleteUser = {deleteUser} />
+      <TododList users = {users} deleteUser = {deleteUser} editUser = { editUser } />
       </Table>
       <br />
-      <h3>Форма создания пользователя</h3>
-      <br />
-      <UserForm sendingUser = { sendingUser } />
+      { edit ? (
+        <>
+        <h3>Форма редактирования пользователя</h3>
+        <br />
+        <EditUserForm 
+          currentUser = { currentUser } 
+          setEdit = { setEdit }
+          updateUser = { updateUser }
+          setId = { id }
+        />
+        </>
+      ) : (
+        <>
+         <h3>Форма создания пользователя</h3>
+        <br />
+        <AddUserForm sendingUser = { sendingUser } />
+        </>
+      )
+      }
       <br />
     </div>
   );
