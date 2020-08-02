@@ -25,7 +25,7 @@ function App() {
     setCurrentUser(user);
     setId(id);
   }
-
+  //  Read
   function getData() {
     fetch(apiId)
       .then(response => response.json())
@@ -33,7 +33,7 @@ function App() {
           setUsers(todos)
        })
   }
-  //  Read
+
   useEffect(() => {
     getData();
   },[])
@@ -50,8 +50,6 @@ function App() {
         })
         if(response.status === 200) {
           getData();
-        }else{
-          alert(response.status)
         }
   }
 
@@ -64,7 +62,7 @@ function App() {
     },
     body: JSON.stringify({ data })
     })
-    if(response.json === 200) {  
+    if(response.status === 200) {  
       setCurrentUser(initialUser);
       setEdit(false);
       getData();
