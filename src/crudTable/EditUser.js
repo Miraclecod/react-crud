@@ -29,7 +29,7 @@ function EditUserForm(props) {
     return (
         <Form style={style}>
         <Form.Group controlId="formBasicEmail">
-            <Form.Control type="text" value={user.email} name="email" onChange={handleChange} /><br />
+            <Form.Control size="text" type="text" value={user.email} name="email" onChange={handleChange} /><br />
             <Form.Control size="text" type="text" value ={user.surname} name="surname"  onChange={handleChange} /><br />
             <Form.Control size="text" type="text" value={user.login} name="login"  onChange={handleChange} />
         </Form.Group>

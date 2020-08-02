@@ -27,7 +27,7 @@ function AddUser(props) {
     return(
         <Form id="CrudTableForm" style={style}>
         <Form.Group controlId="formBasicEmail">
-            <Form.Control type="text" value={user.email} name="email" placeholder="Email" onChange={handleInputChange} /><br />
+            <Form.Control size="text" type="text" value={user.email} name="email" placeholder="Email" onChange={handleInputChange} /><br />
             <Form.Control size="text" type="text" value ={user.surname} name="surname" placeholder="Name" onChange={handleInputChange} /><br />
             <Form.Control size="text" type="text" value={user.login} name="login" placeholder="Login" onChange={handleInputChange} />
         </Form.Group>
@@ -35,7 +35,7 @@ function AddUser(props) {
             <Form.Check type="checkbox" label="Check me out" id="checkbox_check" />
         </Form.Group>
         <Button variant="primary" type="submit" onClick={handleUserSubmit}>
-            Добавить
+            Add
         </Button>
         </Form>
     )

@@ -22,10 +22,10 @@ function TodoList(props) {
                         <td>{user.data?.Age || user.data?.surname}</td>
                         <td>{user.data?.Login || user.data?.login}</td>
                         <td>
-                        <Button variant="success" onClick={() => props.editUser( user._id ,user.data)}>Редактировать</Button>
+                        <Button variant="success" onClick={() => props.editUser( user._id ,user.data)}>Edit</Button>
                         </td>
                         <td>
-                        <Button variant="danger" onClick={() => props.deleteUser(user._id)}>Удалить</Button>
+                        <Button variant="danger" onClick={() => props.deleteUser(user._id)}>Delete</Button>
                         </td>
                     </tr>
                     )

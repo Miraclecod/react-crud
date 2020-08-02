@@ -13,6 +13,7 @@ const styles = {
 
 function App() {
 
+  let apiId = 'http://178.128.196.163:3000/api/records/';
   const initialUser = { email: '', name: '', login: '' }
   const [users, setUsers] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -26,7 +27,7 @@ function App() {
   }
 
   function getData() {
-    fetch('http://178.128.196.163:3000/api/records')
+    fetch(apiId)
       .then(response => response.json())
       .then(todos => {
           setUsers(todos)
@@ -40,7 +41,7 @@ function App() {
 
   // Create
   async function sendingUser(data) {
-    let response = await fetch('http://178.128.196.163:3000/api/records', {
+    let response = await fetch(apiId, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -56,15 +57,14 @@ function App() {
 
   // Update
   async function updateUser(id, data) {
-    let response = await fetch('http://178.128.196.163:3000/api/records/'  + id, {
+    let response = await fetch(apiId  + id, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ data })
     })
-    if(response.json === 200) {
-     
+    if(response.json === 200) {  
       setCurrentUser(initialUser);
       setEdit(false);
       getData();
@@ -73,7 +73,7 @@ function App() {
 
   // Delete
   async function deleteUser(id) {
-    let response = await fetch('http://178.128.196.163:3000/api/records/' + id, {
+    let response = await fetch(apiId + id, {
       method: 'DELETE',
     })
     if(response.status === 200) {
@@ -91,7 +91,7 @@ function App() {
       <br />
       { edit ? (
         <>
-        <h3>Форма редактирования пользователя</h3>
+        <h3>User edit form</h3>
         <br />
         <EditUserForm 
           currentUser = { currentUser } 
@@ -102,7 +102,7 @@ function App() {
         </>
       ) : (
         <>
-         <h3>Форма создания пользователя</h3>
+         <h3>User create form</h3>
         <br />
         <AddUserForm sendingUser = { sendingUser } />
         </>
